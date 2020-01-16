@@ -8,7 +8,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-  socket.emit('challenge', { hello: 'world' });
+  socket.emit('quiz', { hello: 'world' });
   socket.on('my other event', (data) => {
     console.log('received', { data });
   });
@@ -21,3 +21,5 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
+
+
