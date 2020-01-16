@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import io from 'socket.io-client';
 
 function App() {
+  const socket = io('http://localhost:3001');
+  const [challenge, setChallenge] = useState('No challenge');
+
+  useEffect(() => {
+    socket.emit('my other event', { my: 'message received' });
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      Current challenge:
+      { challenge }
     </div>
   );
 }
