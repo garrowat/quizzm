@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
 
 http.listen(3001);
 
-app.use(express.static(__dirname + '../public'));
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
