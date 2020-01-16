@@ -8,9 +8,14 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-  socket.emit('quiz', { hello: 'world' });
-  socket.on('my other event', (data) => {
-    console.log('received', { data });
+  socket.on('player connected', (data) => {
+    io.emit('player connected', data);
+    console.log( { data } );
+  });
+
+  socket.on('join lobby', (data) => {
+    io.emit('join lobby', data);
+    console.log( socket.id );
   });
 });
 
