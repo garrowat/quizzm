@@ -7,6 +7,8 @@ let socket;
 const Quiz = ({ location }) => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
   const ENDPOINT = 'localhost:3001';
 
   useEffect(() => {
@@ -26,9 +28,17 @@ const Quiz = ({ location }) => {
     };
   }, [ENDPOINT, location.search]);
 
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessages([...messages, message]);
+    });
+  }, [messages]);
+
   return (
-    <h1>Quiz Room</h1>
-  )
+    <div>
+      <input value={message} onChange={e => setMessage(e.target.value)} />
+    </div>
+  );
 };
 
 export default Quiz;
