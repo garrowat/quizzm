@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 const express = require('express');
 const path = require('path');
 
@@ -11,16 +10,13 @@ const router = require('./router');
 
 const quizzes = require('./models');
 
-const players = {};
-const quiz = {};
-
 io.on('connection', (socket) => {
-  socket.on('disconnect', (data) => {
-    console.log('A user disconnected: ', data);
-  });
-
   socket.on('join room', ({ name, room }) => {
     console.log({ name, room });
+  });
+
+  socket.on('disconnect', (data) => {
+    console.log('A user disconnected: ', data);
   });
 });
 
