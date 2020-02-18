@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 
+
 let socket;
 
 const Quiz = ({ location }) => {
@@ -34,9 +35,26 @@ const Quiz = ({ location }) => {
     });
   }, [messages]);
 
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if (message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  };
+
   return (
     <div>
-      <input value={message} onChange={e => setMessage(e.target.value)} />
+      <input
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+        onKeyPress={e => e.key === 'Enter' ? sendMessage(e) : null}
+      />
+      <div>
+        {
+          messages.length > 0
+          && messages.map((msg) => <div>`{msg.user}: {msg.text}`</div>)
+        }
+      </div>
     </div>
   );
 };

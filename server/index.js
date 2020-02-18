@@ -5,7 +5,13 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom
+} = require('./users');
+
 const { getRandomQuizQuestion, getQuizAnswer } = require('./quizzes');
 
 const PORT = process.env.PORT || 3001;
