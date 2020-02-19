@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +20,12 @@ const LobbyBox = styled('div')`
   align-items: center;
 `;
 
+const LobbyTextField = styled(TextField)`
+  margin-bottom: 10px
+`;
+
 const JoinButton = styled(Button)`
+  background-color: #665D8B;
   margin-top: 10px;
 `;
 
@@ -29,24 +34,43 @@ const Lobby = () => {
 
   const [name, setName] = useState(randomName);
   const [room, setRoom] = useState('');
+  const [redirect, setRedirect] = useState(false);
+
+  const handleSubmit = () => {
+    setRedirect(true);
+  };
 
   return (
-    <LobbyContainer>
-      <LobbyBox>
-        <img alt="Innovative Purple Quizzm Logo" src={logo} />
-        <div>
-          <TextField placeholder={name} type="text" onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div>
-          <TextField placeholder="Room Name" type="text" onChange={(e) => setRoom(e.target.value)} />
-        </div>
-        <Link style={{ textDecoration: 'none' }} onClick={(e) => ((!name || !room) ? e.preventDefault() : null)} to={`/quiz?name=${name}&room=${room}`}>
-          <JoinButton variant="contained" color="primary" type="submit">
-            <Typography variant="button" display="block">Join Room</Typography>
-          </JoinButton>
-        </Link>
-      </LobbyBox>
-    </LobbyContainer>
+    redirect
+      ? <Redirect to={`/quiz?name=${name}&room=${room}`} />
+      : (
+        <LobbyContainer>
+          <form>
+            <LobbyBox>
+              <img alt="Innovative Purple Quizzm Logo" src={logo} />
+              <div>
+                <LobbyTextField
+                  placeholder={name}
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <LobbyTextField
+                  placeholder="Room Name"
+                  type="text"
+                  onChange={(e) => setRoom(e.target.value)}
+                />
+              </div>
+              <Link style={{ textDecoration: 'none' }} onClick={(e) => ((!name || !room) ? e.preventDefault() : null)} to={`/quiz?name=${name}&room=${room}`}>
+                <JoinButton variant="contained" color="primary" type="submit" onSubmit={handleSubmit} >
+                  <Typography variant="button" display="block">Join Room</Typography>
+                </JoinButton>
+              </Link>
+            </LobbyBox>
+          </form>
+        </LobbyContainer>
+      )
   );
 };
 
